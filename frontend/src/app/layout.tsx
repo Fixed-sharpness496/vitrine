@@ -5,6 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Vitrine — Product Intelligence",
   description: "Semantic product search and clustering",
+  icons: { icon: "/favicon.svg" },
 };
 
 export default function RootLayout({
