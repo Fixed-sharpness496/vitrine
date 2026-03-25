@@ -68,6 +68,42 @@ export async function getClusterProducts(
   return request(`/clusters/${id}/products?limit=${limit}`);
 }
 
+/* ── /intent ─────────────────────────────────────────────────────── */
+
+export interface IntentProduct {
+  product_id: number;
+  name: string;
+  brand: string;
+  retail_price: number;
+}
+
+export interface ClusterBrief {
+  cluster_id: number;
+  cluster_label: string;
+  hit_count: number;
+  products_total: number;
+  avg_price: number;
+  sample_products: IntentProduct[];
+  positioning: string;
+  price_range: string;
+  buyer_action: string;
+}
+
+export interface IntentResponse {
+  intent: string;
+  clusters: ClusterBrief[];
+}
+
+export async function analyzeIntent(
+  intent: string,
+  top_k_clusters = 5
+): Promise<IntentResponse> {
+  return request<IntentResponse>("/intent", {
+    method: "POST",
+    body: JSON.stringify({ intent, top_k_clusters }),
+  });
+}
+
 /* ── /quality ────────────────────────────────────────────────────── */
 
 export interface QualityReport {

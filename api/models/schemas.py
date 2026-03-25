@@ -72,6 +72,37 @@ class EnrichResponse(BaseModel):
     description_tokens_output: int
 
 
+# ── /intent ──────────────────────────────────────────────────────────────
+
+class IntentRequest(BaseModel):
+    intent: str = Field(..., min_length=3, max_length=500)
+    top_k_clusters: int = Field(default=5, ge=1, le=10)
+
+
+class IntentProduct(BaseModel):
+    product_id: int
+    name: str
+    brand: str
+    retail_price: float
+
+
+class ClusterBrief(BaseModel):
+    cluster_id: int
+    cluster_label: str
+    hit_count: int
+    products_total: int
+    avg_price: float
+    sample_products: list[IntentProduct]
+    positioning: str
+    price_range: str
+    buyer_action: str
+
+
+class IntentResponse(BaseModel):
+    intent: str
+    clusters: list[ClusterBrief]
+
+
 # ── /quality ─────────────────────────────────────────────────────────────
 
 class QualityReport(BaseModel):

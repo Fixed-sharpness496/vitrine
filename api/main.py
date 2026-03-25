@@ -7,12 +7,13 @@ Endpoints:
   GET  /clusters/{id}/products      Products in a specific cluster
   POST /enrich                      On-demand GPT-4o-mini enrichment
   GET  /quality                     Latest data quality report
+  POST /intent                      Buyer intent analysis (GenAI RAG)
   GET  /healthz                     Health check
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import search, clusters, enrich, quality
+from routers import search, clusters, enrich, quality, intent
 
 app = FastAPI(
     title="Vitrine API",
@@ -31,6 +32,7 @@ app.include_router(search.router)
 app.include_router(clusters.router)
 app.include_router(enrich.router)
 app.include_router(quality.router)
+app.include_router(intent.router)
 
 
 @app.get("/healthz", tags=["health"])
