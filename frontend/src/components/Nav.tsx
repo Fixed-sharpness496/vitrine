@@ -10,6 +10,8 @@ const LINKS = [
   { href: "/quality", label: "Quality" },
 ];
 
+const LOOKER_URL = "https://lookerstudio.google.com/reporting/1bc6db02-16eb-468b-a6df-57928fddcaba";
+
 export default function Nav() {
   const path = usePathname();
 
@@ -51,6 +53,17 @@ export default function Nav() {
               </li>
             );
           })}
+          <li>
+            <a
+              href={LOOKER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="label-caps transition-colors"
+              style={{ color: "var(--text-muted)" }}
+            >
+              Looker ↗
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
