@@ -68,6 +68,21 @@ export async function getClusterProducts(
   return request(`/clusters/${id}/products?limit=${limit}`);
 }
 
+/* ── /analytics ──────────────────────────────────────────────────── */
+
+export interface AnalyticsData {
+  cluster_distribution: { cluster_label: string; product_count: number; avg_price: number }[];
+  pricing: { cluster_label: string; avg_price: number; price_min: number; price_max: number; product_count: number }[];
+  heatmap: { category: string; department: string; product_count: number; avg_price: number }[];
+  quality: { completeness_pct: number; total_records: number; valid_records: number; field_name_completeness: number; field_brand_completeness: number; field_cat_completeness: number; field_price_completeness: number; price_mean: number; price_min: number; price_max: number };
+  timeline: { sale_date: string; cluster_label: string; sales_count: number; sales_revenue: number }[];
+  brands: { cluster_label: string; brand: string; product_count: number }[];
+}
+
+export function getAnalytics(): Promise<AnalyticsData> {
+  return request<AnalyticsData>("/analytics");
+}
+
 /* ── /intent ─────────────────────────────────────────────────────── */
 
 export interface IntentProduct {

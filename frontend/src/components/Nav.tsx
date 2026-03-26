@@ -7,6 +7,7 @@ const LINKS = [
   { href: "/", label: "Search" },
   { href: "/clusters", label: "Clusters" },
   { href: "/intent", label: "Intent" },
+  { href: "/analytics", label: "Analytics" },
   { href: "/quality", label: "Quality" },
 ];
 

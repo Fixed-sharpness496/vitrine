@@ -13,7 +13,7 @@ Endpoints:
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import search, clusters, enrich, quality, intent
+from routers import search, clusters, enrich, quality, intent, analytics
 
 app = FastAPI(
     title="Vitrine API",
@@ -33,6 +33,7 @@ app.include_router(clusters.router)
 app.include_router(enrich.router)
 app.include_router(quality.router)
 app.include_router(intent.router)
+app.include_router(analytics.router)
 
 
 @app.get("/healthz", tags=["health"])
