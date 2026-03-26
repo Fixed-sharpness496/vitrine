@@ -165,7 +165,7 @@ export default function IntentPage() {
           Conseil d&apos;Achat
         </h1>
         <p className="mono mt-2" style={{ fontSize: 12, color: "var(--text-muted)" }}>
-          Décrivez un profil d&apos;acheteur — obtenez des recommandations par famille de produits
+          Décrivez un profil d&apos;acheteur, obtenez des recommandations par famille de produits
         </p>
 
         <div className="search-wrap mt-8 max-w-2xl">

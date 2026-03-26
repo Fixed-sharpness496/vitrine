@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vitrine — Catalogue Intelligent",
+  title: "Vitrine · Catalogue Intelligent",
   description: "Recherche intelligente et analyse du catalogue produit",
   icons: { icon: "/favicon.svg" },
 };

@@ -13,7 +13,7 @@ const STEPS = [
   },
   {
     title: "Recherche sémantique",
-    body: "Décris ce que tu cherches en langage naturel — \"slim jeans under $80\", \"summer dress\" — et le moteur retrouve les produits les plus proches par similarité vectorielle.",
+    body: "Décris ce que tu cherches en langage naturel (ex. \"slim jeans under $80\", \"summer dress\") et le moteur retrouve les produits les plus proches par similarité vectorielle.",
     icon: "⌕",
     cta: "Suivant →",
   },
@@ -25,7 +25,7 @@ const STEPS = [
   },
   {
     title: "Analyse d'intention",
-    body: "Décris le profil d'un acheteur — \"jeune créateur de contenu urbain\" — et le modèle GPT-4o-mini génère un brief d'achat ciblé par segment.",
+    body: "Décris le profil d'un acheteur (ex. \"jeune créateur de contenu urbain\") et le modèle GPT-4o-mini génère un brief d'achat ciblé par segment.",
     icon: "◈",
     cta: "Suivant →",
   },

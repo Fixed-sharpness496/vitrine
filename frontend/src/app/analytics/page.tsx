@@ -29,11 +29,11 @@ function SectionTitle({ label, title }: { label: string; title: string }) {
 /* ── 1. Indicateurs clés ─────────────────────────────────────────── */
 function KpiCards({ q }: { q: AnalyticsData["quality"] }) {
   const cards = [
-    { label: "Articles au catalogue", value: q.total_records?.toLocaleString("fr-FR") ?? "—" },
-    { label: "Données complètes", value: q.valid_records?.toLocaleString("fr-FR") ?? "—" },
-    { label: "Complétude", value: q.completeness_pct != null ? `${q.completeness_pct.toFixed(1)}%` : "—" },
-    { label: "Prix moyen", value: q.price_mean != null ? fmt(q.price_mean) : "—" },
-    { label: "Fourchette de prix", value: q.price_min != null ? `${fmt(q.price_min)} – ${fmt(q.price_max)}` : "—" },
+    { label: "Articles au catalogue", value: q.total_records?.toLocaleString("fr-FR") ?? "-" },
+    { label: "Données complètes", value: q.valid_records?.toLocaleString("fr-FR") ?? "-" },
+    { label: "Complétude", value: q.completeness_pct != null ? `${q.completeness_pct.toFixed(1)}%` : "-" },
+    { label: "Prix moyen", value: q.price_mean != null ? fmt(q.price_mean) : "-" },
+    { label: "Fourchette de prix", value: q.price_min != null ? `${fmt(q.price_min)} – ${fmt(q.price_max)}` : "-" },
   ];
   return (
     <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}>
