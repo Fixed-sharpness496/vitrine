@@ -4,6 +4,8 @@ A full-stack data + GenAI platform that turns a raw 29k-product retail dataset i
 
 **Live:** [vitrine-ten.vercel.app](https://vitrine-ten.vercel.app)
 
+![Analytics dashboard](dashboard.png)
+
 ---
 
 ## The Problem
