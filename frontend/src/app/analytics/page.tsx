@@ -57,7 +57,7 @@ function ClusterBars({ data }: { data: AnalyticsData["cluster_distribution"] }) 
         <YAxis type="category" dataKey="cluster_label" width={160} tick={{ fontSize: 10, fill: MUTED }} axisLine={false} tickLine={false} />
         <Tooltip
           contentStyle={{ background: "var(--bg-surface)", border: `1px solid ${BORDER}`, borderRadius: 6, fontSize: 12 }}
-          formatter={(v: number) => [v.toLocaleString(), "Products"]}
+          formatter={(v) => [(v as number).toLocaleString(), "Products"]}
         />
         <Bar dataKey="product_count" fill={ACCENT} radius={[0, 3, 3, 0]} />
       </BarChart>
@@ -75,7 +75,7 @@ function PricingBars({ data }: { data: AnalyticsData["pricing"] }) {
         <YAxis type="category" dataKey="cluster_label" width={160} tick={{ fontSize: 10, fill: MUTED }} axisLine={false} tickLine={false} />
         <Tooltip
           contentStyle={{ background: "var(--bg-surface)", border: `1px solid ${BORDER}`, borderRadius: 6, fontSize: 12 }}
-          formatter={(v: number) => [fmt(v), "Avg price"]}
+          formatter={(v) => [fmt(v as number), "Avg price"]}
         />
         <Bar dataKey="avg_price" fill={TEXT} radius={[0, 3, 3, 0]} />
       </BarChart>
@@ -106,7 +106,7 @@ function Timeline({ data }: { data: AnalyticsData["timeline"] }) {
         <YAxis tick={{ fontSize: 10, fill: MUTED }} axisLine={false} tickLine={false} />
         <Tooltip
           contentStyle={{ background: "var(--bg-surface)", border: `1px solid ${BORDER}`, borderRadius: 6, fontSize: 12 }}
-          formatter={(v: number) => [v.toLocaleString(), "Orders"]}
+          formatter={(v) => [(v as number).toLocaleString(), "Orders"]}
         />
         <Line type="monotone" dataKey="sales_count" stroke={ACCENT} strokeWidth={2} dot={false} />
       </LineChart>
