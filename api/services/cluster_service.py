@@ -4,8 +4,10 @@ from __future__ import annotations
 from google.cloud import bigquery
 from config import TABLE_CLUSTERED, TABLE_CLEAN, TABLE_ENRICHED
 from models.schemas import ClusterSummary, ClustersResponse, ClusterProduct, ClusterProductsResponse
+from services.cache import ttl_cache
 
 
+@ttl_cache(seconds=600)
 def get_clusters(bq: bigquery.Client) -> ClustersResponse:
     sql = f"""
     SELECT
@@ -32,6 +34,7 @@ def get_clusters(bq: bigquery.Client) -> ClustersResponse:
     return ClustersResponse(clusters=clusters)
 
 
+@ttl_cache(seconds=600)
 def get_cluster_products(bq: bigquery.Client, cluster_id: int) -> ClusterProductsResponse:
     sql = f"""
     SELECT

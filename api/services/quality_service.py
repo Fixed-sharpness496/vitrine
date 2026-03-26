@@ -4,8 +4,10 @@ from __future__ import annotations
 from google.cloud import bigquery
 from config import TABLE_QUALITY
 from models.schemas import QualityReport
+from services.cache import ttl_cache
 
 
+@ttl_cache(seconds=600)
 def get_quality_report(bq: bigquery.Client) -> QualityReport:
     sql = f"""
     SELECT *
