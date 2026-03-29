@@ -2,7 +2,7 @@
 
 A full-stack data + GenAI platform that turns a raw 29k-product retail dataset into an intelligent catalogue: semantic search with price filtering, unsupervised clustering, AI-generated buyer briefs, and a live analytics dashboard.
 
-**Live:** [vitrine-ten.vercel.app](https://vitrine-ten.vercel.app)
+**Live:** [vitrine-ten.vercel.app](https://vitrine.stephanewamba.com)
 
 ![Analytics dashboard](dashboard.png)
 
